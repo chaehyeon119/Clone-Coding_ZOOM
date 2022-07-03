@@ -1,4 +1,3 @@
-
 const messageList = document.querySelector("ul");
 const messageForm = document.querySelector("form");
 const socket = new WebSocket(`ws://${window.location.host}`);
@@ -11,9 +10,9 @@ socket.addEventListener("open", () => {
 socket.addEventListener("message", (message) => {
     // const message = event.data;
     // const { data: message } = event; 
-    console.log("New message: ", message.data);
-    // client to server
-    socket.send('Hello from browser.');
+    const li = document.createElement("li");
+    li.innerText = message.data;
+    messageList.append(li);
 });
 
 socket.addEventListener("close", () => {

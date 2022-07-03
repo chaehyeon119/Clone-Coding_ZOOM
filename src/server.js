@@ -18,15 +18,17 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server }); // { server : server } 키 벨류 값이 값을 때 왼쪽처럼 줄여서 쓸 수 있음
 
 
+const sockets = []; //sockets라는 배열 만들기
+
 wss.on("connection", (socket) => {
+    sockets.push(socket); //socket 배열에 생성된 소켓 추가
     console.log("Connected to Browser ✅");
     socket.on("close", () => console.log("Disconnected from the Browser ❌ "));
     // message 이벤트가 발생하면 실행하라
     socket.on("message", (message) => {
-        console.log(message.toString());
+        sockets.forEach(aSocket => aSocket.send(`${message}`));
     });
-    socket.send("hello!!!");
-});
+})
 
 // webSocketSever.on("connected", (socket) =>{
 //     console.log("connection maded:", socket);
